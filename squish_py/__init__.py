@@ -1,0 +1,1 @@
+from .squish import encode, decode
