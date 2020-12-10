@@ -10,8 +10,9 @@ class StringTooLargeError(Error):
 		 """
     pass
 def encode(line):
-	mpmath.mp.dps = 1000
+	
 	bts = bm.tobits(line) # bts becomes the bitarray of line/ the string. 
+	mpmath.mp.dps = len(bts)*2/4
 	#print([bts.count(0), bts.count(1)])
 	ratios = {
 		"rat":[mpmath.mpf(bts.count(0)/len(bts)), mpmath.mpf(bts.count(1)/len(bts))], # ratio for 0, ratio for 1
@@ -40,13 +41,14 @@ def encode(line):
 	ratios["length"] = len(bts)
 	ratios["goal"] = (ratios["goal"][0]+ratios["goal"][1])/2 # Sets goal to the average of the min and max
 	#print(ratios)
-	#print((sys.getsizeof(line)-sys.getsizeof(ratios))/sys.getsizeof(line) )  # being used to see compression percentage.
+	print("Compressed from "+ str(sys.getsizeof(line)) +"bits to "+ str(sys.getsizeof(ratios))+"bits. A " + str(((sys.getsizeof(line)-sys.getsizeof(ratios))/sys.getsizeof(line))*100) + "% compression. ")
+	# print((sys.getsizeof(line)-sys.getsizeof(ratios))/sys.getsizeof(line) )  # being used to see compression percentage.
 	return ratios
 	
 def decode(json):
 	ratios = json["rat"]
 	goal = json["goal"]
-	mpmath.mp.dps = 1000
+	mpmath.mp.dps = json["length"]*1/2
 	nx = [mpmath.mpf(0), mpmath.mpf(1)]
 	decider = ratios[0] # starts off as the % of 0s in the msg. 
 	le = json["length"]
