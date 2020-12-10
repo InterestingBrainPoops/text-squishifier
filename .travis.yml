@@ -1,12 +1,6 @@
-dist: xenial
-language: php
-php:
-  - '5.6' # I have no idea why i need to add php, but if it works it works
 jobs:
   include:
     - language: python
       python: 3.8
-			install:
-			- pip install -r ./squish_py/requirements.txt
       script:
-      - python test.py
+      - pip install -r ./squish_py/requirements.txt && python test.py
