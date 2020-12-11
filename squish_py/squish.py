@@ -1,6 +1,6 @@
 from squish_py import bitmanip as bm
 import sys
-import mpmath
+import mpmath, bitstring
 class Error(Exception):
     """Base class for other exceptions"""
     pass
@@ -9,9 +9,9 @@ class StringTooLargeError(Error):
 		is put into place. 
 		 """
     pass
-def encode(line):
+def encode(filepath):
 	
-	bts = bm.tobits(line) # bts becomes the bitarray of line/ the string. 
+	bts = [int(x) for x in bitstring.Bits(open(filepath, "rb")).bin.split()] # bts becomes the bitarray of line/ the string. 
 	mpmath.mp.dps = len(bts)*2/4
 	#print([bts.count(0), bts.count(1)])
 	ratios = {
